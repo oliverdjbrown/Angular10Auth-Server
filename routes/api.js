@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('./models/user')
 const mongoose = require('mongoose')
-const db = "mongodb+srv://user:pass4789@cluster0.bwdux.mongodb.net/eventsdb?retryWrites=true&w=majority" 
+   const db = "mongodb+srv://user:pass4789@cluster0.bwdux.mongodb.net/eventsdb?retryWrites=true&w=majority" 
 // const db = "mongodb+srv://user:<password>@cluster0.bwdux.mongodb.net/<dbname>?retryWrites=true&w=majority"
 
 mongoose.connect(db, err => {
