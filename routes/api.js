@@ -1,9 +1,9 @@
 const express = require('express')
+const jwt = require('jsonwebtoken')
 const router = express.Router()
 const User = require('./models/user')
 const mongoose = require('mongoose')
-   const db = "mongodb+srv://user:pass4789@cluster0.bwdux.mongodb.net/eventsdb?retryWrites=true&w=majority" 
-// const db = "mongodb+srv://user:<password>@cluster0.bwdux.mongodb.net/<dbname>?retryWrites=true&w=majority"
+const db = "mongodb+srv://user:pass4789@cluster0.bwdux.mongodb.net/eventsdb?retryWrites=true&w=majority" 
 
 mongoose.connect(db, err => {
     if(err) {
@@ -24,7 +24,9 @@ router.post('/register', (req, res) => {
         if(error) {
             console.error('Error! ' + error)
         } else {
-            res.status(200).send(registeredUser)
+            let payload = { subjet: registeredUser._id }
+            let token = jwt.sign(payload, 'secretekey')
+            res.status(200).send({ token })
         }
     })
 })
@@ -42,7 +44,9 @@ router.post('/login', (req, res) => {
             if( user.password !== userData.password) {
                 res.status(401).send('Invalid Password')
             } else {
-                res.status(200).send(user)
+                let payload = { subjet: user._id }
+                let token = jwt.sign(payload, 'secretekey')
+                res.status(200).send({ token })
             }
         }
     })
@@ -50,6 +54,7 @@ router.post('/login', (req, res) => {
 
 router.get('/events', (req, res) => {
     let events = [
+        
         {
             "_id": "1",
             "name": "Auto Expo",
