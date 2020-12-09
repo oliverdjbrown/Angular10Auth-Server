@@ -24,14 +24,17 @@ function verifyToken(req, res, next){
         return res.status(401).send('Unauthorized reques')
     }
     
-    let payload = jwt.verify(token, 'secretKey')
-
-    if (!payload) {
-        return res.status(401).send('Unauthorized reques');
+    try {
+        let payload = jwt.verify(token, 'secretKey')
+        if (!payload) {
+            return res.status(401).send('Unauthorized reques');
+        }
+        req.userId = payload.subjet
+        next()
+    } catch(err){
+        return res.status (401) .send ('Unauthorized request')
     }
 
-    req.userId = payload.subjet
-    next()
 }
 
 router.get('/', (req, res) => {
